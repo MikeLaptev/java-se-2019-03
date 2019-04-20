@@ -19,6 +19,7 @@
   <modules>
     <module>hw01-maven</module>
     <module>hw02-arraylist</module>
+    <module>hw03-annotations</module>
   </modules>
 
   <name>otus</name>
