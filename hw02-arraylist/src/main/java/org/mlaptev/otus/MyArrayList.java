@@ -101,9 +101,7 @@ public class MyArrayList<T> implements List<T> {
     }
 
     // Shift right tail of the array
-    for (int i = size - 1; i >= index; i--) {
-      elements[i + 1] = elements[i];
-    }
+    System.arraycopy(elements, index, elements, index + 1, size - index);
 
     // Inserting the element
     elements[index] = element;
