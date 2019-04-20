@@ -60,7 +60,10 @@ public class RemoveElementTest {
     // Assert
     assertAll(
         () -> assertEquals(2, removedElement),
-        () -> assertEquals(initialSize - 1, myArrayList.size())
+        () -> assertEquals(initialSize - 1, myArrayList.size()),
+        () -> assertEquals(0, myArrayList.get(0)),
+        () -> assertEquals(1, myArrayList.get(1)),
+        () -> assertEquals(3, myArrayList.get(2))
     );
   }
 

@@ -32,6 +32,9 @@
     <!-- Unit testing -->
     <junit.jupiter.version>5.4.2</junit.jupiter.version>
 
+    <!-- Mocking -->
+    <mockito.core.version>2.27.0</mockito.core.version>
+
     <!-- Maven -->
     <maven.clean.plugin.version>3.1.0</maven.clean.plugin.version>
     <maven.compiler.plugin.version>3.7.0</maven.compiler.plugin.version>
@@ -86,6 +89,13 @@
         <groupId>org.apache.logging.log4j</groupId>
         <artifactId>log4j-core</artifactId>
         <version>${log4j.version}</version>
+      </dependency>
+
+      <!-- Mocking -->
+      <dependency>
+        <groupId>org.mockito</groupId>
+        <artifactId>mockito-core</artifactId>
+        <version>${mockito.core.version}</version>
       </dependency>
     </dependencies>
   </dependencyManagement>

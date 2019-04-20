@@ -18,6 +18,9 @@ public class MyArrayList<T> implements List<T> {
   private T[] elements;
 
   public MyArrayList(int capacity) {
+    if (capacity < 0) {
+      throw new UnsupportedOperationException("Cannot create array list with invalid capacity.");
+    }
     this.size = 0;
     this.capacity = capacity;
     this.elements = (T[]) new Object[capacity];
@@ -114,9 +117,7 @@ public class MyArrayList<T> implements List<T> {
     T element = elements[index];
 
     // Shift left tail of the array
-    for (int i = index; i < size - 1; i++) {
-      elements[i] = elements[i + 1];
-    }
+    System.arraycopy(elements, index + 1, elements, index, size - 1 - index);
 
     // Cleanup
     elements[size - 1] = null;
@@ -142,17 +143,9 @@ public class MyArrayList<T> implements List<T> {
 
   @Override
   public int indexOf(Object o) {
-    if (o == null) {
-      for (int i = 0; i < size(); i++) {
-        if (get(i) == null) {
-          return i;
-        }
-      }
-    } else {
-      for (int i = 0; i < size(); i++) {
-        if (get(i).equals(o)) {
-          return i;
-        }
+    for (int i = 0; i < size(); i++) {
+      if ((get(i) == null && o == null) || get(i).equals(o)) {
+        return i;
       }
     }
     return -1;
@@ -160,17 +153,9 @@ public class MyArrayList<T> implements List<T> {
 
   @Override
   public int lastIndexOf(Object o) {
-    if (o == null) {
-      for (int i = size() - 1; i >= 0; i--) {
-        if (get(i) == null) {
-          return i;
-        }
-      }
-    } else {
-      for (int i = size() - 1; i >= 0; i--) {
-        if (get(i).equals(o)) {
-          return i;
-        }
+    for (int i = size() - 1; i >= 0; i--) {
+      if ((get(i) == null && o == null) || get(i).equals(o)) {
+        return i;
       }
     }
     return -1;
@@ -287,7 +272,7 @@ public class MyArrayList<T> implements List<T> {
     return true;
   }
 
-  private boolean extend() {
+  boolean extend() {
     // Let's check if it is possible or not to add the memory
     int currentCapacity = elements.length;
 
