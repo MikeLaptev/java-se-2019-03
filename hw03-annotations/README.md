@@ -59,7 +59,7 @@ java.lang.reflect.InvocationTargetException: null
 	at jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:?]
 	at jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:?]
 	at java.lang.reflect.Method.invoke(Method.java:566) ~[?:?]
-	at org.mlaptev.otus.framework.Framework.executeTest(Framework.java:57) [classes/:?]
+	at run(Framework.java:57) [classes/:?]
 	at org.mlaptev.otus.Application.main(Application.java:19) [classes/:?]
 Caused by: java.lang.NullPointerException: Example of exception.
 	at org.mlaptev.otus.tests.SingleTestWithException.firstTest(SingleTestWithException.java:24) ~[classes/:?]

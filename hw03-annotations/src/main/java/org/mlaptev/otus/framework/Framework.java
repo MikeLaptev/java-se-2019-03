@@ -1,12 +1,12 @@
 package org.mlaptev.otus.framework;
 
 import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
+import lombok.SneakyThrows;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.mlaptev.otus.framework.annotations.After;
@@ -17,8 +17,9 @@ public class Framework {
 
   private static final Logger logger = LogManager.getLogger(Framework.class);
 
-  public static void executeTest(Class clazz) throws ClassNotFoundException, NoSuchMethodException,
-      IllegalAccessException, InvocationTargetException, InstantiationException {
+  @SneakyThrows
+  public void run(Class<?> clazz) {
+
     logger.info("Executing tests from class [{}]", clazz.getName());
 
     // List of all the methods
