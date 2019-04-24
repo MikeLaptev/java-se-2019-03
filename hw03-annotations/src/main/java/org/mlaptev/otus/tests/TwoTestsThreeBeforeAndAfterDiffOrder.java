@@ -18,8 +18,7 @@ import org.mlaptev.otus.framework.annotations.Test;
  */
 public class TwoTestsThreeBeforeAndAfterDiffOrder {
 
-  private static final Logger logger = LogManager
-      .getLogger(TwoTestsThreeBeforeAndAfterDiffOrder.class);
+  private final Logger logger = LogManager.getLogger(TwoTestsThreeBeforeAndAfterDiffOrder.class);
 
   public TwoTestsThreeBeforeAndAfterDiffOrder() {
     logger.info("constructor");

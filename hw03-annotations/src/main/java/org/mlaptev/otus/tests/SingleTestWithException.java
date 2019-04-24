@@ -8,7 +8,7 @@ import org.mlaptev.otus.framework.annotations.Test;
 
 public class SingleTestWithException {
 
-  private static final Logger logger = LogManager.getLogger(SingleTestWithException.class);
+  private final Logger logger = LogManager.getLogger(SingleTestWithException.class);
 
   public SingleTestWithException() {
     logger.info("constructor");

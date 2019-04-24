@@ -15,7 +15,7 @@ import org.mlaptev.otus.framework.annotations.Test;
 
 public class Framework {
 
-  private static final Logger logger = LogManager.getLogger(Framework.class);
+  private final Logger logger = LogManager.getLogger(Framework.class);
 
   @SneakyThrows
   public void run(Class<?> clazz) {
@@ -44,8 +44,7 @@ public class Framework {
 
     for (Method test : tests) {
       // Creating a new instance of the test class
-      Class<?> myClass = Class.forName(clazz.getName());
-      Constructor<?> constructor = myClass.getConstructor();
+      Constructor<?> constructor = clazz.getConstructor();
       Object instance = constructor.newInstance();
 
       // Calling before method(s)
