@@ -14,46 +14,46 @@ public class TwoTestsThreeBeforeAndAfterSameOrder {
   private final Logger logger = LogManager.getLogger(TwoTestsThreeBeforeAndAfterSameOrder.class);
 
   public TwoTestsThreeBeforeAndAfterSameOrder() {
-    logger.info("constructor");
+    logger.info("Constructor");
   }
 
   @Before
   public void firstSetUp() {
-    logger.info("firstSetUp");
+    logger.info("Calling setup [1/3] - non-ordered.");
   }
 
   @Before
   public void secondSetUp() {
-    logger.info("secondSetUp");
+    logger.info("Calling setup [2/3] - non-ordered.");
   }
 
   @Before
   public void thirdSetUp() {
-    logger.info("thirdSetUp");
+    logger.info("Calling setup [3/3] - non-ordered.");
   }
 
   @Test
   public void firstTest() {
-    logger.info("firstTest");
+    logger.info("Execution of the test [1/2]...");
   }
 
   @Test
   public void secondTest() {
-    logger.info("secondTest");
+    logger.info("Execution of the test [2/2]...");
   }
 
   @After
   public void thirdCleanUp() {
-    logger.info("thirdCleanUp");
+    logger.info("Calling cleanup [1/3] - non-ordered.");
   }
 
   @After
   public void secondCleanUp() {
-    logger.info("secondCleanUp");
+    logger.info("Calling cleanup [2/3] - non-ordered.");
   }
 
   @After
   public void firstCleanUp() {
-    logger.info("firstCleanUp");
+    logger.info("Calling cleanup [3/3] - non-ordered.");
   }
 }

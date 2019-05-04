@@ -11,21 +11,21 @@ public class SingleTest {
   private final Logger logger = LogManager.getLogger(SingleTest.class);
 
   public SingleTest() {
-    logger.info("constructor");
+    logger.info("Constructor");
   }
 
   @Before
   public void setUp() {
-    logger.info("setUp");
+    logger.info("Calling setup [1/1].");
   }
 
   @Test
-  public void firstTest() {
-    logger.info("firstTest");
+  public void test() {
+    logger.info("Execution of the test [1/1]...");
   }
 
   @After
   public void cleanUp() {
-    logger.info("cleanUp");
+    logger.info("Calling cleanup [1/1].");
   }
 }

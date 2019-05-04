@@ -6,21 +6,11 @@ import org.mlaptev.otus.framework.annotations.After;
 import org.mlaptev.otus.framework.annotations.Before;
 import org.mlaptev.otus.framework.annotations.Test;
 
-/**
- * Before and after have different orders.
- *
- * Execution pipeline is:
- * - before (0) - ex. initialising something like A
- *  - before (1) - ex. initialising something like B, that depends on A
- *   - test
- *  - after (1) - ex. cleanup something like B, that still depends on A
- * - after (0) - ex. cleanup something like A, it should be Ok now, since B already cleaned up
- */
-public class TwoTestsThreeBeforeAndAfterDiffOrder {
+public class ExceptionInOneOfAfterMethods {
 
-  private final Logger logger = LogManager.getLogger(TwoTestsThreeBeforeAndAfterDiffOrder.class);
+  private final Logger logger = LogManager.getLogger(ExceptionInOneOfAfterMethods.class);
 
-  public TwoTestsThreeBeforeAndAfterDiffOrder() {
+  public ExceptionInOneOfAfterMethods() {
     logger.info("Constructor");
   }
 
@@ -40,13 +30,8 @@ public class TwoTestsThreeBeforeAndAfterDiffOrder {
   }
 
   @Test
-  public void firstTest() {
-    logger.info("Execution of the test [1/2]...");
-  }
-
-  @Test
-  public void secondTest() {
-    logger.info("Execution of the test [2/2]...");
+  public void test() {
+    logger.info("Execution of the test [1/1]...");
   }
 
   @After
@@ -56,7 +41,8 @@ public class TwoTestsThreeBeforeAndAfterDiffOrder {
 
   @After(order = 1)
   public void secondCleanUp() {
-    logger.info("Calling cleanup [2/3] - ordered.");
+    logger.info("Calling cleanup [2/3] - be ready for exception.");
+    throw new RuntimeException("Exception in one of the after methods...");
   }
 
   @After(order = 2)

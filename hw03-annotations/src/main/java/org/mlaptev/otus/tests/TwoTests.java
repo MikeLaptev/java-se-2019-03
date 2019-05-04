@@ -11,26 +11,26 @@ public class TwoTests {
   private final Logger logger = LogManager.getLogger(TwoTests.class);
 
   public TwoTests() {
-    logger.info("constructor");
+    logger.info("Constructor");
   }
 
   @Before
   public void setUp() {
-    logger.info("setUp");
+    logger.info("Calling setup [1/1].");
   }
 
   @Test
   public void firstTest() {
-    logger.info("firstTest");
+    logger.info("Execution of the test [1/2]...");
   }
 
   @Test
   public void secondTest() {
-    logger.info("secondTest");
+    logger.info("Execution of the test [2/2]...");
   }
 
   @After
   public void cleanUp() {
-    logger.info("cleanUp");
+    logger.info("Calling cleanup [1/1].");
   }
 }

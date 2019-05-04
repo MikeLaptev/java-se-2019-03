@@ -45,22 +45,29 @@ public class Framework {
     Constructor<?> constructor = clazz.getConstructor();
     Object instance = constructor.newInstance();
 
-    // Calling before method(s)
-    for (Method beforeStep : beforeSteps) {
-      beforeStep.invoke(instance);
-    }
-
-    // Calling the test
     try {
-      test.invoke(instance);
-    }
-    catch (Exception e) {
-      logger.error("Exception occurs during test execution.", e);
+      // Calling before method(s)
+      for (Method beforeStep : beforeSteps) {
+        beforeStep.invoke(instance);
+      }
+
+      // Calling the test
+      try {
+        test.invoke(instance);
+      } catch (Exception e) {
+        logger.error("Exception occurs during test execution...", e);
+      }
+    } catch (Exception e) {
+      logger.error("Exception occurs during execution of pre-test steps... Exiting...", e);
     }
 
     // Calling the after method(s)
     for (Method afterStep : afterSteps) {
-      afterStep.invoke(instance);
+      try {
+        afterStep.invoke(instance);
+      } catch (Exception e) {
+        logger.error("Exception occurs during execution of post-test steps...", e);
+      }
     }
   }
 

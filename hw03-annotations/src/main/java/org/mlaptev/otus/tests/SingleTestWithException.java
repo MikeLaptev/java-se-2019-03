@@ -11,22 +11,23 @@ public class SingleTestWithException {
   private final Logger logger = LogManager.getLogger(SingleTestWithException.class);
 
   public SingleTestWithException() {
-    logger.info("constructor");
+    logger.info("Constructor");
   }
 
   @Before
   public void setUp() {
-    logger.info("setUp");
+    logger.info("Calling setup [1/1].");
   }
 
   @Test
-  public void firstTest() {
-    throw new NullPointerException("Example of exception.");
+  public void test() {
+    logger.info("Execution of the test [1/1] - be ready for exception...");
+    throw new RuntimeException("Exception in the test...");
   }
 
   @After
   public void cleanUp() {
-    logger.info("cleanUp");
+    logger.info("Calling cleanup [1/1].");
   }
 }
 
