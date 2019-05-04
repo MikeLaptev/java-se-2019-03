@@ -1,12 +1,20 @@
-**Results**
+### Results
 
-```text
-/Library/Java/JavaVirtualMachines/jdk-11.0.2.jdk/Contents/Home/bin/java "-javaagent:/Users/mikhail.laptev/Library/Application Support/JetBrains/Toolbox/apps/IDEA-U/ch-0/183.6156.11/IntelliJ IDEA.app/Contents/lib/idea_rt.jar=51921:/Users/mikhail.laptev/Library/Application Support/JetBrains/Toolbox/apps/IDEA-U/ch-0/183.6156.11/IntelliJ IDEA.app/Contents/bin" -Dfile.encoding=UTF-8 -classpath /Users/mikhail.laptev/Development/java-se-2019-03/hw03-annotations/target/classes:/Users/mikhail.laptev/.m2/repository/org/apache/logging/log4j/log4j-core/2.11.2/log4j-core-2.11.2.jar:/Users/mikhail.laptev/.m2/repository/org/apache/logging/log4j/log4j-api/2.11.2/log4j-api-2.11.2.jar org.mlaptev.otus.Application
+#### 1
+Class contains only one setup method, one cleanup method and **one** test method.
+
+```bash
 18:52:09.681 [main] INFO  org.mlaptev.otus.framework.Framework - Executing tests from class [org.mlaptev.otus.tests.SingleTest]
 18:52:09.695 [main] INFO  org.mlaptev.otus.tests.SingleTest - Constructor
 18:52:09.695 [main] INFO  org.mlaptev.otus.tests.SingleTest - Calling setup [1/1].
 18:52:09.696 [main] INFO  org.mlaptev.otus.tests.SingleTest - Execution of the test [1/1]...
 18:52:09.696 [main] INFO  org.mlaptev.otus.tests.SingleTest - Calling cleanup [1/1].
+```
+
+#### 2
+Class contains only one setup method, one cleanup method and **two** test methods.
+
+```bash
 18:52:09.696 [main] INFO  org.mlaptev.otus.framework.Framework - Executing tests from class [org.mlaptev.otus.tests.TwoTests]
 18:52:09.697 [main] INFO  org.mlaptev.otus.tests.TwoTests - Constructor
 18:52:09.697 [main] INFO  org.mlaptev.otus.tests.TwoTests - Calling setup [1/1].
@@ -16,6 +24,14 @@
 18:52:09.697 [main] INFO  org.mlaptev.otus.tests.TwoTests - Calling setup [1/1].
 18:52:09.698 [main] INFO  org.mlaptev.otus.tests.TwoTests - Execution of the test [2/2]...
 18:52:09.698 [main] INFO  org.mlaptev.otus.tests.TwoTests - Calling cleanup [1/1].
+```
+
+#### 3
+Class contains only three setup methods, three cleanup methods and **two** test methods.
+
+Both cleanup and setup methods has the same order.
+
+```bash
 18:52:09.698 [main] INFO  org.mlaptev.otus.framework.Framework - Executing tests from class [org.mlaptev.otus.tests.TwoTestsThreeBeforeAndAfterSameOrder]
 18:52:09.699 [main] INFO  org.mlaptev.otus.tests.TwoTestsThreeBeforeAndAfterSameOrder - Constructor
 18:52:09.699 [main] INFO  org.mlaptev.otus.tests.TwoTestsThreeBeforeAndAfterSameOrder - Calling setup [1/3] - non-ordered.
@@ -33,6 +49,14 @@
 18:52:09.701 [main] INFO  org.mlaptev.otus.tests.TwoTestsThreeBeforeAndAfterSameOrder - Calling cleanup [1/3] - non-ordered.
 18:52:09.701 [main] INFO  org.mlaptev.otus.tests.TwoTestsThreeBeforeAndAfterSameOrder - Calling cleanup [2/3] - non-ordered.
 18:52:09.701 [main] INFO  org.mlaptev.otus.tests.TwoTestsThreeBeforeAndAfterSameOrder - Calling cleanup [3/3] - non-ordered.
+```
+
+#### 4
+Class contains only three setup methods, three cleanup methods and **two** test methods.
+
+Both cleanup and setup methods has different orders.
+
+```bash
 18:52:09.701 [main] INFO  org.mlaptev.otus.framework.Framework - Executing tests from class [org.mlaptev.otus.tests.TwoTestsThreeBeforeAndAfterDiffOrder]
 18:52:09.702 [main] INFO  org.mlaptev.otus.tests.TwoTestsThreeBeforeAndAfterDiffOrder - Constructor
 18:52:09.702 [main] INFO  org.mlaptev.otus.tests.TwoTestsThreeBeforeAndAfterDiffOrder - Calling setup [1/3] - ordered.
@@ -50,6 +74,14 @@
 18:52:09.704 [main] INFO  org.mlaptev.otus.tests.TwoTestsThreeBeforeAndAfterDiffOrder - Calling cleanup [1/3] - ordered.
 18:52:09.705 [main] INFO  org.mlaptev.otus.tests.TwoTestsThreeBeforeAndAfterDiffOrder - Calling cleanup [2/3] - ordered.
 18:52:09.705 [main] INFO  org.mlaptev.otus.tests.TwoTestsThreeBeforeAndAfterDiffOrder - Calling cleanup [3/3] - ordered.
+```
+
+#### 5 
+Class contains only one setup method, one cleanup method and **one** test method, that thrown an exception.
+
+**Expected behaviour** - all cleanup methods should be executed.
+
+```bash
 18:52:09.705 [main] INFO  org.mlaptev.otus.framework.Framework - Executing tests from class [org.mlaptev.otus.tests.SingleTestWithException]
 18:52:09.706 [main] INFO  org.mlaptev.otus.tests.SingleTestWithException - Constructor
 18:52:09.706 [main] INFO  org.mlaptev.otus.tests.SingleTestWithException - Calling setup [1/1].
@@ -67,6 +99,18 @@ Caused by: java.lang.RuntimeException: Exception in the test...
 	at org.mlaptev.otus.tests.SingleTestWithException.test(SingleTestWithException.java:25) ~[classes/:?]
 	... 7 more
 18:52:09.723 [main] INFO  org.mlaptev.otus.tests.SingleTestWithException - Calling cleanup [1/1].
+```
+
+#### 6
+Class contains only three setup methods, three cleanup methods and **one** test method.
+
+Both cleanup and setup methods has different orders.
+
+One of the cleanup methods throws an exception.
+
+**Expected behaviour** - all cleanup methods should be executed, even one of them throws an exception.
+
+```bash
 18:52:09.723 [main] INFO  org.mlaptev.otus.framework.Framework - Executing tests from class [org.mlaptev.otus.tests.ExceptionInOneOfAfterMethods]
 18:52:09.724 [main] INFO  org.mlaptev.otus.tests.ExceptionInOneOfAfterMethods - Constructor
 18:52:09.724 [main] INFO  org.mlaptev.otus.tests.ExceptionInOneOfAfterMethods - Calling setup [1/3] - ordered.
@@ -88,6 +132,18 @@ Caused by: java.lang.RuntimeException: Exception in one of the after methods...
 	at org.mlaptev.otus.tests.ExceptionInOneOfAfterMethods.secondCleanUp(ExceptionInOneOfAfterMethods.java:45) ~[classes/:?]
 	... 7 more
 18:52:09.727 [main] INFO  org.mlaptev.otus.tests.ExceptionInOneOfAfterMethods - Calling cleanup [3/3] - ordered.
+```
+
+#### 7
+Class contains only three setup methods, three cleanup methods and **one** test method.
+
+Both cleanup and setup methods has different orders.
+
+One of the cleanup methods throws an exception.
+
+**Expected behaviour** - no before methods after throwing an exception should be executed, no test(s) should be executed, all the cleanup methods should be executed.
+
+```bash
 18:52:09.728 [main] INFO  org.mlaptev.otus.framework.Framework - Executing tests from class [org.mlaptev.otus.tests.ExceptionInOneOfBeforeMethods]
 18:52:09.728 [main] INFO  org.mlaptev.otus.tests.ExceptionInOneOfBeforeMethods - Constructor
 18:52:09.728 [main] INFO  org.mlaptev.otus.tests.ExceptionInOneOfBeforeMethods - Calling setup [1/3] - ordered.
@@ -107,7 +163,4 @@ Caused by: java.lang.RuntimeException: Exception in one of the before methods...
 18:52:09.729 [main] INFO  org.mlaptev.otus.tests.ExceptionInOneOfBeforeMethods - Calling cleanup [1/3] - ordered.
 18:52:09.729 [main] INFO  org.mlaptev.otus.tests.ExceptionInOneOfBeforeMethods - Calling cleanup [2/3] - ordered.
 18:52:09.729 [main] INFO  org.mlaptev.otus.tests.ExceptionInOneOfBeforeMethods - Calling cleanup [3/3] - ordered.
-
-Process finished with exit code 0
-
 ```
