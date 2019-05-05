@@ -8,7 +8,7 @@ import org.mlaptev.otus.framework.annotations.Test;
 
 public class ExceptionInOneOfBeforeMethods {
 
-  private final Logger logger = LogManager.getLogger(ExceptionInOneOfBeforeMethods.class);
+  private static Logger logger = LogManager.getLogger(ExceptionInOneOfBeforeMethods.class);
 
   public ExceptionInOneOfBeforeMethods() {
     logger.info("Constructor");

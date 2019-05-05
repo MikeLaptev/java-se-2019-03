@@ -11,7 +11,7 @@ import org.apache.logging.log4j.Logger;
 
 public class MyArrayList<T> implements List<T> {
 
-  private final Logger logger = LogManager.getLogger(MyArrayList.class);
+  private static Logger logger = LogManager.getLogger(MyArrayList.class);
 
   private int size;
   private int capacity;

@@ -3,19 +3,14 @@ package org.mlaptev.otus.framework;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 import lombok.SneakyThrows;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.mlaptev.otus.framework.annotations.After;
-import org.mlaptev.otus.framework.annotations.Before;
-import org.mlaptev.otus.framework.annotations.Test;
 
 public class Framework {
 
-  private final Logger logger = LogManager.getLogger(Framework.class);
+  private static Logger logger = LogManager.getLogger(Framework.class);
 
   public void run(Class<?> clazz) {
 
@@ -25,13 +20,13 @@ public class Framework {
     List<Method> methods = Arrays.asList(clazz.getDeclaredMethods());
 
     // List of before steps
-    List<Method> beforeSteps = getBeforeSteps(methods);
+    List<Method> beforeSteps = Helper.getBeforeSteps(methods);
 
     // List of tests
-    List<Method> tests = getTests(methods);
+    List<Method> tests = Helper.getTests(methods);
 
     // List of after steps
-    List<Method> afterSteps = getAfterSteps(methods);
+    List<Method> afterSteps = Helper.getAfterSteps(methods);
 
     for (Method test : tests) {
       executeSingleTest(clazz, beforeSteps, afterSteps, test);
@@ -69,25 +64,5 @@ public class Framework {
         logger.error("Exception occurs during execution of post-test steps...", e);
       }
     }
-  }
-
-  private List<Method> getAfterSteps(List<Method> methods) {
-    return methods.stream()
-        .filter(method -> method.isAnnotationPresent(After.class))
-        .sorted(Comparator.comparing(method -> method.getDeclaredAnnotation(After.class).order()))
-        .collect(Collectors.toList());
-  }
-
-  private List<Method> getTests(List<Method> methods) {
-    return methods.stream()
-        .filter(method -> method.isAnnotationPresent(Test.class))
-        .collect(Collectors.toList());
-  }
-
-  private List<Method> getBeforeSteps(List<Method> methods) {
-    return methods.stream()
-          .filter(method -> method.isAnnotationPresent(Before.class))
-          .sorted(Comparator.comparing(method -> method.getDeclaredAnnotation(Before.class).order()))
-          .collect(Collectors.toList());
   }
 }

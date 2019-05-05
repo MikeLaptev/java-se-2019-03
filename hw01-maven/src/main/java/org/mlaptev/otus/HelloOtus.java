@@ -8,7 +8,7 @@ import org.apache.logging.log4j.Logger;
 
 public class HelloOtus {
 
-  private static final Logger logger = LogManager.getLogger(HelloOtus.class);
+  private static Logger logger = LogManager.getLogger(HelloOtus.class);
 
   public static void main(String[] args) {
 
