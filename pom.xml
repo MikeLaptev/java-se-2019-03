@@ -20,6 +20,8 @@
     <module>hw01-maven</module>
     <module>hw02-arraylist</module>
     <module>hw03-annotations</module>
+    <module>hw04-autologging</module>
+    <module>hw06-atm</module>
   </modules>
 
   <name>otus</name>
@@ -31,10 +33,10 @@
     <maven.compiler.target>11</maven.compiler.target>
 
     <!-- Unit testing -->
-    <junit.jupiter.version>5.4.2</junit.jupiter.version>
+    <junit.jupiter.version>5.5.1</junit.jupiter.version>
 
     <!-- Mocking -->
-    <mockito.core.version>2.27.0</mockito.core.version>
+    <mockito.core.version>3.0.0</mockito.core.version>
 
     <!-- Maven -->
     <maven.clean.plugin.version>3.1.0</maven.clean.plugin.version>
@@ -47,12 +49,12 @@
     <maven.assembly.plugin.version>3.1.1</maven.assembly.plugin.version>
 
     <!-- Guava -->
-    <com.google.guava.version>27.1-jre</com.google.guava.version>
+    <com.google.guava.version>28.0-jre</com.google.guava.version>
 
     <!-- Logging -->
     <log4j.version>2.11.2</log4j.version>
 
-    <lombok.version>1.18.6</lombok.version>
+    <lombok.version>1.18.8</lombok.version>
   </properties>
 
   <dependencyManagement>
