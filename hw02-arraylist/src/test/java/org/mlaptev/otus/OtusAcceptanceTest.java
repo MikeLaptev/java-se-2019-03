@@ -66,7 +66,7 @@ public class OtusAcceptanceTest {
     Collections.addAll(myArrayList, elementsToAdd);
 
     // Act
-    Collections.sort(myArrayList, Comparator.reverseOrder());
+    myArrayList.sort(Comparator.reverseOrder());
 
     // Assert
     assertAll(
