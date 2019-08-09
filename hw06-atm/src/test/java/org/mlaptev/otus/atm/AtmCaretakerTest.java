@@ -11,12 +11,12 @@ import org.mlaptev.otus.exceptions.CannotWithdrawException;
 
 class AtmCaretakerTest {
 
-  private Atm atm;
+  private AtmWithMultipleCurrencies atm;
   private AtmCaretaker caretaker;
 
   @BeforeEach
   void setup() {
-    atm = new Atm();
+    atm = new AtmWithMultipleCurrencies();
     caretaker = new AtmCaretaker();
   }
 

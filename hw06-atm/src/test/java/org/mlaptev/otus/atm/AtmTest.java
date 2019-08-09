@@ -16,11 +16,11 @@ import org.mlaptev.otus.exceptions.CurrencyNotSupportedException;
 
 class AtmTest {
 
-  private Atm atm;
+  private AtmWithMultipleCurrencies atm;
 
   @BeforeEach
   void setup() {
-    atm = new Atm();
+    atm = new AtmWithMultipleCurrencies();
   }
 
   @Test
