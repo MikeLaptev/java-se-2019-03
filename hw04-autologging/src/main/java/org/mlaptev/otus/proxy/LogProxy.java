@@ -11,9 +11,13 @@ import java.util.Map;
 import java.util.WeakHashMap;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.mlaptev.otus.annotations.Log;
 
 public class LogProxy implements InvocationHandler {
+
+  private static Logger logger = LogManager.getLogger(LogProxy.class);
 
   private Object obj;
 
@@ -66,8 +70,7 @@ public class LogProxy implements InvocationHandler {
           .collect(Collectors.joining(", "));
     }
 
-    System.out.println(String.format("Executed method: %s, parameters: %s",
-        m.getName(), parameters));
+    logger.info("Executed method: {}, parameters: {}", m.getName(), parameters);
   }
 
   @AllArgsConstructor
