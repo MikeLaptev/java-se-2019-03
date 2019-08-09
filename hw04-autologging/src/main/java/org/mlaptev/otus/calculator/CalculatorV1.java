@@ -1,6 +1,6 @@
-package org.mlaptev.otus;
+package org.mlaptev.otus.calculator;
 
-public class Calculator implements CalculatorInterface {
+public class CalculatorV1 implements CalculatorInterface {
 
   public int add(int a, int b) {
     return a + b;

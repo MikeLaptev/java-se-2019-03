@@ -7,6 +7,8 @@ import java.lang.reflect.Parameter;
 import java.lang.reflect.Proxy;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.WeakHashMap;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import org.mlaptev.otus.annotations.Log;
@@ -15,7 +17,10 @@ public class LogProxy implements InvocationHandler {
 
   private Object obj;
 
-  public static Object newInstance(Object obj) {
+  private static Map<Method, Boolean> annotatedMethods = new WeakHashMap<>();
+
+  public static Object instanceOf(Object obj) {
+
     return Proxy.newProxyInstance(
         obj.getClass().getClassLoader(),
         obj.getClass().getInterfaces(),
@@ -29,17 +34,14 @@ public class LogProxy implements InvocationHandler {
   public Object invoke(Object proxy, Method m, Object[] args) throws Throwable {
     Object result;
     try {
-      if (m.getAnnotation(Log.class) != null) {
-        List<Argument> arguments = new ArrayList<>();
-        int i = 0;
-        for (Parameter p : m.getParameters()) {
-          arguments.add(new Argument(p.getName(), args[i++]));
-        }
-        System.out.println(
-            String.format("Executed method: %s, parameters: %s",
-                m.getName(),
-                arguments.stream().map(Argument::toString).collect(Collectors.joining(", "))));
+      if (!annotatedMethods.containsKey(m)) {
+        annotatedMethods.put(m, m.getAnnotation(Log.class) != null);
       }
+
+      if (annotatedMethods.get(m)) {
+        logMethodDetails(m, args);
+      }
+
       result = m.invoke(obj, args);
     } catch (InvocationTargetException e) {
       throw e.getTargetException();
@@ -48,6 +50,24 @@ public class LogProxy implements InvocationHandler {
           e.getMessage());
     }
     return result;
+  }
+
+  private void logMethodDetails(Method m, Object[] args) {
+    List<Argument> arguments = new ArrayList<>();
+    int i = 0;
+    for (Parameter p : m.getParameters()) {
+      arguments.add(new Argument(p.getName(), args[i++]));
+    }
+
+    String parameters = "none";
+    if (!arguments.isEmpty()) {
+      parameters = arguments.stream()
+          .map(Argument::toString)
+          .collect(Collectors.joining(", "));
+    }
+
+    System.out.println(String.format("Executed method: %s, parameters: %s",
+        m.getName(), parameters));
   }
 
   @AllArgsConstructor

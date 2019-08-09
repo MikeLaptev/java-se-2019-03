@@ -1,10 +1,9 @@
-package org.mlaptev.otus;
+package org.mlaptev.otus.calculator;
 
 import org.mlaptev.otus.annotations.Log;
 
 public interface CalculatorInterface {
 
-  @Log
   int add(int a, int b);
 
   @Log
