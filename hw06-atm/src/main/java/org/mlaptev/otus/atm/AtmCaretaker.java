@@ -1,7 +1,6 @@
 package org.mlaptev.otus.atm;
 
-import org.mlaptev.otus.exceptions.InvalidBanknoteNominationException;
-import org.mlaptev.otus.exceptions.InvalidCassetteStateException;
+import org.mlaptev.otus.exceptions.AtmException;
 
 public class AtmCaretaker {
 
@@ -11,8 +10,7 @@ public class AtmCaretaker {
     this.obj = atm.save();
   }
 
-  public void undo(Atm atm)
-      throws InvalidCassetteStateException, InvalidBanknoteNominationException {
+  public void undo(Atm atm) throws AtmException {
     atm.undo(this.obj);
   }
 }

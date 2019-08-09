@@ -1,6 +1,6 @@
 package org.mlaptev.otus.exceptions;
 
-public class InvalidCassetteStateException extends Exception {
+public class InvalidCassetteStateException extends AtmException {
 
   public InvalidCassetteStateException(String message) {
     super(message);

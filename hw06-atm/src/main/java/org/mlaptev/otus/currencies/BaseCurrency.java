@@ -1,19 +1,15 @@
 package org.mlaptev.otus.currencies;
 
 import java.util.Map;
-import org.mlaptev.otus.exceptions.CannotWithdrawException;
-import org.mlaptev.otus.exceptions.InvalidBanknoteNominationException;
-import org.mlaptev.otus.exceptions.InvalidCassetteStateException;
+import org.mlaptev.otus.exceptions.AtmException;
 
 public interface BaseCurrency {
 
-  Map<Integer, Integer> withdraw(int amount) throws CannotWithdrawException;
+  Map<Integer, Integer> withdraw(int amount) throws AtmException;
 
-  void uploadBanknotes(Map<Integer, Integer> cassette)
-      throws InvalidBanknoteNominationException, InvalidCassetteStateException;
+  void uploadBanknotes(Map<Integer, Integer> cassette) throws AtmException;
 
   Map<Integer, Integer> getCurrencyState();
 
-  void setCurrencyState(Map<Integer, Integer> state)
-      throws InvalidCassetteStateException, InvalidBanknoteNominationException;
+  void setCurrencyState(Map<Integer, Integer> state) throws AtmException;
 }

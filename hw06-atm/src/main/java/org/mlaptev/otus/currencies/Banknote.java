@@ -2,6 +2,7 @@ package org.mlaptev.otus.currencies;
 
 import java.util.HashMap;
 import java.util.Map;
+import org.mlaptev.otus.exceptions.AtmException;
 import org.mlaptev.otus.exceptions.CannotWithdrawException;
 import org.mlaptev.otus.exceptions.InvalidBanknoteNominationException;
 import org.mlaptev.otus.exceptions.InvalidCassetteStateException;
@@ -28,8 +29,7 @@ abstract class Banknote {
    * @throws InvalidBanknoteNominationException - if cassette contains banknotes of invalid
    * nomination
    */
-  void refillBanknoteFromCassette(Map<Integer, Integer> cassette)
-      throws InvalidCassetteStateException, InvalidBanknoteNominationException {
+  void refillBanknoteFromCassette(Map<Integer, Integer> cassette) throws AtmException {
     if (cassette.containsKey(nomination)) {
       if (cassette.get(nomination) < 0) {
         throw new InvalidCassetteStateException(
@@ -47,8 +47,7 @@ abstract class Banknote {
     }
   }
 
-  void updateBanknoteState(Map<Integer, Integer> state)
-      throws InvalidCassetteStateException, InvalidBanknoteNominationException {
+  void updateBanknoteState(Map<Integer, Integer> state) throws AtmException {
     if (state.containsKey(nomination)) {
       if (state.get(nomination) < 0) {
         throw new InvalidCassetteStateException("Number of banknotes to add should be positive");
@@ -78,7 +77,7 @@ abstract class Banknote {
     return current;
   }
 
-  Map<Integer, Integer> withdraw(int amount) throws CannotWithdrawException {
+  Map<Integer, Integer> withdraw(int amount) throws AtmException {
     Map<Integer, Integer> current = new HashMap<>();
 
     if (numberOfBanknotes != 0 && amount >= nomination) {

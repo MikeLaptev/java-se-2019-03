@@ -1,9 +1,7 @@
 package org.mlaptev.otus.currencies;
 
 import java.util.Map;
-import org.mlaptev.otus.exceptions.CannotWithdrawException;
-import org.mlaptev.otus.exceptions.InvalidBanknoteNominationException;
-import org.mlaptev.otus.exceptions.InvalidCassetteStateException;
+import org.mlaptev.otus.exceptions.AtmException;
 
 public class Eur implements BaseCurrency {
 
@@ -26,13 +24,12 @@ public class Eur implements BaseCurrency {
   }
 
   @Override
-  public Map<Integer, Integer> withdraw(int amount) throws CannotWithdrawException {
+  public Map<Integer, Integer> withdraw(int amount) throws AtmException {
     return eur500.withdraw(amount);
   }
 
   @Override
-  public void uploadBanknotes(Map<Integer, Integer> cassette)
-      throws InvalidBanknoteNominationException, InvalidCassetteStateException {
+  public void uploadBanknotes(Map<Integer, Integer> cassette) throws AtmException {
     eur500.refillBanknoteFromCassette(cassette);
   }
 
@@ -42,8 +39,7 @@ public class Eur implements BaseCurrency {
   }
 
   @Override
-  public void setCurrencyState(Map<Integer, Integer> state)
-      throws InvalidCassetteStateException, InvalidBanknoteNominationException {
+  public void setCurrencyState(Map<Integer, Integer> state) throws AtmException {
     eur500.updateBanknoteState(state);
   }
 
