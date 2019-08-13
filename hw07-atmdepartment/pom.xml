@@ -36,5 +36,12 @@
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-engine</artifactId>
     </dependency>
+
+    <!-- ATM implementation -->
+    <dependency>
+      <groupId>org.mlaptev.otus</groupId>
+      <artifactId>hw06-atm</artifactId>
+      <version>${project.version}</version>
+    </dependency>
   </dependencies>
 </project>
