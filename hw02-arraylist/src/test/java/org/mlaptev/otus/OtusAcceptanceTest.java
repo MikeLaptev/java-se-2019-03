@@ -9,9 +9,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
- * Collections.addAll(Collection<? super T> c, T... elements) Collections.static <T> void
- * copy(List<? super T> dest, List<? extends T> src) Collections.static <T> void sort(List<T> list,
- * Comparator<? super T> c)
+ * Functions to check:
+ *
+ * 1) Collections.addAll(Collection<? super T> c, T... elements)
+ *
+ * 2) Collections.static <T> void copy(List<? super T> dest, List<? extends T> src)
+ *
+ * 3) Collections.static <T> void sort(List<T> list, Comparator<? super T> c)
  */
 public class OtusAcceptanceTest {
 

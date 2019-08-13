@@ -21,7 +21,6 @@
     <module>hw02-arraylist</module>
     <module>hw03-annotations</module>
     <module>hw04-autologging</module>
-    <module>hw06-atm</module>
   </modules>
 
   <name>otus</name>
