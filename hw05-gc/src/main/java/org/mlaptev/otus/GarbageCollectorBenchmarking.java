@@ -7,10 +7,10 @@ import java.util.stream.IntStream;
 
 public class GarbageCollectorBenchmarking {
 
-  private final static List<ItemHolder> holder = new ArrayList<>();
+  private final static List<List<ItemHolder>> holder = new ArrayList<>();
 
   private static final Random random = new Random();
-  private static final int LIST_SIZE = 10_000_000;
+  private static final int LIST_SIZE = 100_000;
   private static final int ENTRIES_TO_HOLD = 1000;
 
   public static List<ItemHolder> generateList() {
@@ -20,21 +20,20 @@ public class GarbageCollectorBenchmarking {
     return generatedList;
   }
 
-  public static void removeQuarterOfItemsInTheList(List<ItemHolder> generatedList) {
-    IntStream.range(0, generatedList.size() >> 2)
+  public static void removeHalfOfItemsInTheList(List<ItemHolder> generatedList) {
+    IntStream.range(0, (generatedList.size() >> 1) + (generatedList.size() & 1))
         .forEach(item -> generatedList.remove(generatedList.size() - 1));
   }
 
   public static void main(String[] args) {
     IntStream.range(0, ENTRIES_TO_HOLD).forEach(value -> {
       List<ItemHolder> list = generateList();
-      int index = random.nextInt(list.size() / 2);
-      holder.add(list.get(index));
-      removeQuarterOfItemsInTheList(list);
+      holder.add(list);
+      removeHalfOfItemsInTheList(list);
 
       // to observe behavior in visualvm
       try {
-        Thread.sleep(10);
+        Thread.sleep(50);
       } catch (InterruptedException e) {
         e.printStackTrace();
       }
