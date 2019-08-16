@@ -1,3 +1,17 @@
+### Outcome
+
+Type | GC Execution time | Total Execution time | Application Execution time | Application Execution time / Total Execution time |
+-----|-------------------|----------------------|----------------------------|---------------------------------------------------|
+Serial | 20261 | 24953 | 4692 | 18.80% |
+Parallel |30981 | 36071 | 5090 | 14.11% |
+Concurrent Mark Sweep | 14713 | 18109 | 3396 | 18.75% |
+G1 | 2307 | 8194 | 5887 | 71.85% |
+
+
+Based on the results from above for this, particular benchmark, we might conclude the following:
+- Execution of the G1 garbage collector took significantly less time compare to other options. That give us up to `2x speedup` compare to the second best result. 
+- Parallel Garbage Collector took most of the time and it is required `4 times more` for application to complete compare to the best option when the `G1` garbage collector is used.
+
 ### Results
 
 #### Serial Collector [-XX:+UseSerialGC]
