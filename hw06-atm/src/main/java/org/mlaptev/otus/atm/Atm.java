@@ -19,5 +19,5 @@ public interface Atm {
 
   AtmMemento save();
 
-  void undo(Object obj) throws AtmException;
+  void undo(AtmMemento memento) throws AtmException;
 }

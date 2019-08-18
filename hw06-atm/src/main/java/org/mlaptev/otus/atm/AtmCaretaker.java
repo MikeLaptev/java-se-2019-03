@@ -4,13 +4,13 @@ import org.mlaptev.otus.exceptions.AtmException;
 
 class AtmCaretaker {
 
-  private Object obj;
+  private AtmMemento memento;
 
   void save(Atm atm) {
-    this.obj = atm.save();
+    this.memento = atm.save();
   }
 
   void undo(Atm atm) throws AtmException {
-    atm.undo(this.obj);
+    atm.undo(this.memento);
   }
 }

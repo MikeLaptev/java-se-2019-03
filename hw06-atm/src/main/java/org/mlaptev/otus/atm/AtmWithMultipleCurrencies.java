@@ -3,7 +3,6 @@ package org.mlaptev.otus.atm;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
-import lombok.Getter;
 import lombok.Setter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -22,7 +21,7 @@ public class AtmWithMultipleCurrencies implements Atm {
   private Map<CurrencyType, CurrencyRepresentation> acceptedCurrencies = new HashMap<>();
 
   @Setter
-  private Withdraw withdrawType = new MinimumAmountOfBanknotes();
+  private Withdraw withdrawApproach = new MinimumAmountOfBanknotes();
 
   private final UUID uuid = UUID.randomUUID();
 
@@ -60,13 +59,13 @@ public class AtmWithMultipleCurrencies implements Atm {
   }
 
   private Withdraw getDefinedWithdrawApproach(Banknote banknote) {
-    withdrawType.setBanknote(banknote);
-    return withdrawType;
+    withdrawApproach.setBanknote(banknote);
+    return withdrawApproach;
   }
 
   @Override
   public void resetWithdrawTypeToDefault() {
-    withdrawType = new MinimumAmountOfBanknotes();
+    withdrawApproach = new MinimumAmountOfBanknotes();
   }
 
   @Override
@@ -88,14 +87,18 @@ public class AtmWithMultipleCurrencies implements Atm {
 
   @Override
   public AtmMemento save() {
-    return new AtmMemento(acceptedCurrencies);
+    return new AtmMemento(acceptedCurrencies, withdrawApproach, uuid);
   }
 
   @Override
-  public void undo(Object obj) throws AtmException {
-    Map<CurrencyType, Map<Integer, Integer>> state = ((AtmMemento) obj).getState();
+  public void undo(AtmMemento memento) throws AtmException {
+    if (!memento.getUuid().equals(uuid)) {
+      throw new AtmException("Cannot restore ATM from a snapshot that was not created from it.");
+    }
+    Map<CurrencyType, Map<Integer, Integer>> state = memento.getState();
     for (CurrencyType type : acceptedCurrencies.keySet()) {
       acceptedCurrencies.get(type).setCurrencyState(state.getOrDefault(type, new HashMap<>()));
     }
+    withdrawApproach = memento.getWithdraw();
   }
 }

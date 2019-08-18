@@ -1,6 +1,8 @@
 package org.mlaptev.otus.atmdepartment;
 
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.HashMap;
 import org.junit.jupiter.api.BeforeEach;
@@ -59,6 +61,14 @@ class ResetConditionsTest {
     department.resetConditionsOfAllTheAtms();
 
     // Assert
+    Atm restoredFirst = department.getAtms().get(first.getUuid());
+    Atm restoredSecond = department.getAtms().get(second.getUuid());
+    assertAll(
+        () -> assertNotNull(restoredFirst, "Department should contains first ATM"),
+        () -> assertNotNull(restoredSecond, "Department should contains first ATM")
+    );
+
+    // TODO(mikhail.laptev): Implementation is required.
     throw new UnsupportedOperationException("Implementation is required.");
   }
 
@@ -108,6 +118,13 @@ class ResetConditionsTest {
     department.resetConditionsOfAllTheAtms();
 
     // Assert
+    Atm restoredFirst = department.getAtms().get(first.getUuid());
+    Atm restoredSecond = department.getAtms().get(second.getUuid());
+    assertAll(
+        () -> assertNotNull(restoredFirst, "Department should contains first ATM"),
+        () -> assertNotNull(restoredSecond, "Department should contains first ATM")
+    );
+    // TODO(mikhail.laptev): Implementation is required.
     throw new UnsupportedOperationException("Implementation is required.");
   }
 }
