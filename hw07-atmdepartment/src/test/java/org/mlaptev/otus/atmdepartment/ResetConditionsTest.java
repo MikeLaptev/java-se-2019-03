@@ -2,7 +2,6 @@ package org.mlaptev.otus.atmdepartment;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.HashMap;
 import org.junit.jupiter.api.BeforeEach;
@@ -57,19 +56,8 @@ class ResetConditionsTest {
 
     department.addAtms(first, second);
 
-    // Act
+    // Act & Assert
     department.resetConditionsOfAllTheAtms();
-
-    // Assert
-    Atm restoredFirst = department.getAtms().get(first.getUuid());
-    Atm restoredSecond = department.getAtms().get(second.getUuid());
-    assertAll(
-        () -> assertNotNull(restoredFirst, "Department should contains first ATM"),
-        () -> assertNotNull(restoredSecond, "Department should contains first ATM")
-    );
-
-    // TODO(mikhail.laptev): Implementation is required.
-    throw new UnsupportedOperationException("Implementation is required.");
   }
 
   @Test
@@ -109,22 +97,14 @@ class ResetConditionsTest {
 
     department.addAtms(first, second);
 
-    // Act
-    assertDoesNotThrow(() -> first.withdraw(CurrencyType.USD, 188),
-        "It should be possible to withdraw.");
-    assertDoesNotThrow(() -> second.withdraw(CurrencyType.GBP, 185),
-        "It should be possible to withdraw.");
+    // Act & Assert
+    assertAll(
+        () -> assertDoesNotThrow(() -> first.withdraw(CurrencyType.USD, 188),
+        "It should be possible to withdraw."),
+        () -> assertDoesNotThrow(() -> second.withdraw(CurrencyType.GBP, 185),
+        "It should be possible to withdraw.")
+    );
 
     department.resetConditionsOfAllTheAtms();
-
-    // Assert
-    Atm restoredFirst = department.getAtms().get(first.getUuid());
-    Atm restoredSecond = department.getAtms().get(second.getUuid());
-    assertAll(
-        () -> assertNotNull(restoredFirst, "Department should contains first ATM"),
-        () -> assertNotNull(restoredSecond, "Department should contains first ATM")
-    );
-    // TODO(mikhail.laptev): Implementation is required.
-    throw new UnsupportedOperationException("Implementation is required.");
   }
 }
