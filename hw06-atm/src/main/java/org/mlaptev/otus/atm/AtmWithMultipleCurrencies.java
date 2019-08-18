@@ -72,7 +72,7 @@ public class AtmWithMultipleCurrencies implements Atm {
   public void setCustomWithdrawType(Class clazz) throws AtmException {
     final TypeSet interfaces = TypeToken.of(clazz).getTypes().interfaces();
 
-    if (interfaces.contains(Withdraw.class)) {
+    if (interfaces.contains(TypeToken.of(Withdraw.class))) {
       withdrawType = clazz;
     } else {
       throw new InvalidWithdrawApproachException(
@@ -80,6 +80,11 @@ public class AtmWithMultipleCurrencies implements Atm {
               "Cannot use %s as a withdraw provider. It should implement the %s interface",
               clazz.getName(), interfaces));
     }
+  }
+
+  @Override
+  public void resetWithdrawTypeToDefault() {
+    withdrawType = MinimumAmountOfBanknotes.class;
   }
 
   public void loadCassette(CurrencyType type, Map<Integer, Integer> cassette) throws AtmException {

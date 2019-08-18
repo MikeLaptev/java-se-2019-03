@@ -10,6 +10,8 @@ public interface Atm {
 
   void setCustomWithdrawType(Class clazz) throws AtmException;
 
+  void resetWithdrawTypeToDefault();
+
   AtmMomento save();
 
   void undo(Object obj) throws AtmException;

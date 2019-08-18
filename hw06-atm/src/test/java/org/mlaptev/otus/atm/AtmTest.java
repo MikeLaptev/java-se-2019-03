@@ -27,7 +27,7 @@ class AtmTest {
   void itShouldBePossibleToWithdrawUsdFromAtmSupportedUsd() throws Exception {
     // Arrange
     atm.addSupportOfCurrencyType(CurrencyType.USD);
-    atm.loadCassette(CurrencyType.USD, new HashMap<>(){{
+    atm.loadCassette(CurrencyType.USD, new HashMap<>() {{
       put(1, 1);
       put(2, 1);
       put(5, 1);
@@ -52,13 +52,13 @@ class AtmTest {
     );
 
     assertAll(
-        () -> assertEquals(money.get(1).intValue(), 1, "Invalid amount of 1 USD banknotes"),
-        () -> assertEquals(money.get(2).intValue(), 1, "Invalid amount of 2 USD banknotes"),
-        () -> assertEquals(money.get(5).intValue(), 1, "Invalid amount of 5 USD banknotes"),
-        () -> assertEquals(money.get(10).intValue(), 1, "Invalid amount of 10 USD banknotes"),
-        () -> assertEquals(money.get(20).intValue(), 1, "Invalid amount of 20 USD banknotes"),
-        () -> assertEquals(money.get(50).intValue(), 1, "Invalid amount of 50 USD banknotes"),
-        () -> assertEquals(money.get(100).intValue(), 1, "Invalid amount of 100 USD banknotes")
+        () -> assertEquals(1, money.get(1).intValue(), "Invalid amount of 1 USD banknotes"),
+        () -> assertEquals(1, money.get(2).intValue(), "Invalid amount of 2 USD banknotes"),
+        () -> assertEquals(1, money.get(5).intValue(), "Invalid amount of 5 USD banknotes"),
+        () -> assertEquals(1, money.get(10).intValue(), "Invalid amount of 10 USD banknotes"),
+        () -> assertEquals(1, money.get(20).intValue(), "Invalid amount of 20 USD banknotes"),
+        () -> assertEquals(1, money.get(50).intValue(), "Invalid amount of 50 USD banknotes"),
+        () -> assertEquals(1, money.get(100).intValue(), "Invalid amount of 100 USD banknotes")
     );
   }
 
@@ -79,7 +79,7 @@ class AtmTest {
   void atmStateShouldNotBeChangedAfterUnsuccessfulWithdrawal() throws Exception {
     // Arrange
     atm.addSupportOfCurrencyType(CurrencyType.GBP);
-    atm.loadCassette(CurrencyType.GBP, new HashMap<>(){{
+    atm.loadCassette(CurrencyType.GBP, new HashMap<>() {{
       put(5, 1);
       put(10, 1);
       put(20, 1);
@@ -98,11 +98,11 @@ class AtmTest {
         "It should be possible to withdraw.");
 
     assertAll(
-        () -> assertEquals(money.get(5).intValue(), 1, "Invalid amount of 5 GBP banknotes"),
-        () -> assertEquals(money.get(10).intValue(), 1, "Invalid amount of 10 GBP banknotes"),
-        () -> assertEquals(money.get(20).intValue(), 1, "Invalid amount of 20 GBP banknotes"),
-        () -> assertEquals(money.get(50).intValue(), 1, "Invalid amount of 50 GBP banknotes"),
-        () -> assertEquals(money.get(100).intValue(), 1, "Invalid amount of 100 GBP banknotes")
+        () -> assertEquals(1, money.get(5).intValue(), "Invalid amount of 5 GBP banknotes"),
+        () -> assertEquals(1, money.get(10).intValue(), "Invalid amount of 10 GBP banknotes"),
+        () -> assertEquals(1, money.get(20).intValue(), "Invalid amount of 20 GBP banknotes"),
+        () -> assertEquals(1, money.get(50).intValue(), "Invalid amount of 50 GBP banknotes"),
+        () -> assertEquals(1, money.get(100).intValue(), "Invalid amount of 100 GBP banknotes")
     );
   }
 
@@ -110,7 +110,7 @@ class AtmTest {
   void atmStateShouldBeChangedAfterSuccessfulWithdrawal() throws Exception {
     // Arrange
     atm.addSupportOfCurrencyType(CurrencyType.GBP);
-    atm.loadCassette(CurrencyType.GBP, new HashMap<>(){{
+    atm.loadCassette(CurrencyType.GBP, new HashMap<>() {{
       put(5, 2);
       put(10, 2);
       put(20, 2);
@@ -122,11 +122,11 @@ class AtmTest {
     Map<Integer, Integer> money = atm.withdraw(CurrencyType.GBP, 370);
 
     assertAll(
-        () -> assertEquals(money.get(5).intValue(), 2, "Invalid amount of 5 GBP banknotes"),
-        () -> assertEquals(money.get(10).intValue(), 2, "Invalid amount of 10 GBP banknotes"),
-        () -> assertEquals(money.get(20).intValue(), 2, "Invalid amount of 20 GBP banknotes"),
-        () -> assertEquals(money.get(50).intValue(), 2, "Invalid amount of 50 GBP banknotes"),
-        () -> assertEquals(money.get(100).intValue(), 2, "Invalid amount of 100 GBP banknotes")
+        () -> assertEquals(2, money.get(5).intValue(), "Invalid amount of 5 GBP banknotes"),
+        () -> assertEquals(2, money.get(10).intValue(), "Invalid amount of 10 GBP banknotes"),
+        () -> assertEquals(2, money.get(20).intValue(), "Invalid amount of 20 GBP banknotes"),
+        () -> assertEquals(2, money.get(50).intValue(), "Invalid amount of 50 GBP banknotes"),
+        () -> assertEquals(2, money.get(100).intValue(), "Invalid amount of 100 GBP banknotes")
     );
 
     assertAll(
