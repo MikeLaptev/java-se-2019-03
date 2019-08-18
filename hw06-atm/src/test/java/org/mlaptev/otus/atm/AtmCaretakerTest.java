@@ -44,6 +44,6 @@ class AtmCaretakerTest {
     caretaker.undo(atm);
     assertDoesNotThrow(
         () -> atm.withdraw(CurrencyType.RUBLE, 6660),
-        "It should not be possible to withdraw Russian Rubles.");
+        "It should be possible to withdraw Russian Rubles.");
   }
 }
