@@ -8,11 +8,9 @@ public interface Atm {
 
   Map<Integer, Integer> withdraw(CurrencyType type, int amount) throws AtmException;
 
-  void setCustomWithdrawType(Class clazz) throws AtmException;
-
   void resetWithdrawTypeToDefault();
 
-  AtmMomento save();
+  AtmMemento save();
 
   void undo(Object obj) throws AtmException;
 }

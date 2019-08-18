@@ -7,11 +7,11 @@ import java.util.stream.Collectors;
 import org.mlaptev.otus.currencies.CurrencyRepresentation;
 import org.mlaptev.otus.currencies.CurrencyType;
 
-class AtmMomento {
+class AtmMemento {
 
   private Map<CurrencyType, Map<Integer, Integer>> state = new HashMap<>();
 
-  AtmMomento(Map<CurrencyType, CurrencyRepresentation> currencies) {
+  AtmMemento(Map<CurrencyType, CurrencyRepresentation> currencies) {
     state.putAll(currencies.entrySet()
         .stream()
         .collect(Collectors.toMap(Entry::getKey, x -> x.getValue().getCurrencyState())));

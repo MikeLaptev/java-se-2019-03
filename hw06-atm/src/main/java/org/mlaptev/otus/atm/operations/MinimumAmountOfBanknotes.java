@@ -2,17 +2,15 @@ package org.mlaptev.otus.atm.operations;
 
 import java.util.HashMap;
 import java.util.Map;
+import lombok.Setter;
 import org.mlaptev.otus.currencies.Banknote;
 import org.mlaptev.otus.exceptions.AtmException;
 import org.mlaptev.otus.exceptions.CannotWithdrawException;
 
 public class MinimumAmountOfBanknotes implements Withdraw {
 
+  @Setter
   private Banknote banknote;
-
-  public MinimumAmountOfBanknotes(Banknote banknote) {
-    this.banknote = banknote;
-  }
 
   @Override
   public Map<Integer, Integer> execute(int amount) throws AtmException {
@@ -21,7 +19,8 @@ public class MinimumAmountOfBanknotes implements Withdraw {
     int numberOfBanknotes = banknote.getNumberOfBanknotes();
     MinimumAmountOfBanknotes nextInChain = null;
     if (banknote.getLowerNominationBanknote() != null) {
-      nextInChain = new MinimumAmountOfBanknotes(banknote.getLowerNominationBanknote());
+      nextInChain = new MinimumAmountOfBanknotes();
+      nextInChain.setBanknote(banknote.getLowerNominationBanknote());
     }
 
     if (numberOfBanknotes != 0 && amount >= banknote.getNomination()) {

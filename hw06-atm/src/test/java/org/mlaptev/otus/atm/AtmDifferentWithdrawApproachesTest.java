@@ -48,7 +48,7 @@ public class AtmDifferentWithdrawApproachesTest {
         () -> assertEquals(1, money.get(50).intValue(), "Invalid amount of 50 USD banknotes")
     );
 
-    atm.setCustomWithdrawType(OnlyBanknotesWith20Nomination.class);
+    atm.setWithdrawType(new OnlyBanknotesWith20Nomination());
 
     money.clear();
 
