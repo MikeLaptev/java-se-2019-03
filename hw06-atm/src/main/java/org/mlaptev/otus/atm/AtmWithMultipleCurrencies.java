@@ -2,6 +2,8 @@ package org.mlaptev.otus.atm;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
+import lombok.Getter;
 import lombok.Setter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -12,8 +14,6 @@ import org.mlaptev.otus.currencies.CurrencyRepresentation;
 import org.mlaptev.otus.currencies.CurrencyType;
 import org.mlaptev.otus.exceptions.AtmException;
 import org.mlaptev.otus.exceptions.CurrencyNotSupportedException;
-import org.mlaptev.otus.exceptions.InvalidBanknoteNominationException;
-import org.mlaptev.otus.exceptions.InvalidCassetteStateException;
 
 public class AtmWithMultipleCurrencies implements Atm {
 
@@ -24,13 +24,20 @@ public class AtmWithMultipleCurrencies implements Atm {
   @Setter
   private Withdraw withdrawType = new MinimumAmountOfBanknotes();
 
+  private final UUID uuid = UUID.randomUUID();
+
+  @Override
+  public UUID getUuid() {
+    return uuid;
+  }
+
   public void addSupportOfCurrencyType(CurrencyType type) throws Exception {
     logger.info("Adding support of currency {}", type.name());
     acceptedCurrencies.put(type,
         (CurrencyRepresentation) type.getCurrency().getConstructor().newInstance());
   }
 
-  public boolean isCurrencySupported(CurrencyType type) {
+  private boolean isCurrencySupported(CurrencyType type) {
     return acceptedCurrencies.containsKey(type);
   }
 
@@ -62,6 +69,7 @@ public class AtmWithMultipleCurrencies implements Atm {
     withdrawType = new MinimumAmountOfBanknotes();
   }
 
+  @Override
   public void loadCassette(CurrencyType type, Map<Integer, Integer> cassette) throws AtmException {
     if (!isCurrencySupported(type)) {
       throw new CurrencyNotSupportedException(
