@@ -11,8 +11,7 @@ import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mlaptev.otus.currencies.CurrencyType;
-import org.mlaptev.otus.exceptions.CannotWithdrawException;
-import org.mlaptev.otus.exceptions.CurrencyNotSupportedException;
+import org.mlaptev.otus.exceptions.AtmException;
 
 class AtmTest {
 
@@ -70,7 +69,7 @@ class AtmTest {
     atm.addSupportOfCurrencyType(CurrencyType.RUBLE);
 
     // Act & Assert
-    assertThrows(CurrencyNotSupportedException.class,
+    assertThrows(AtmException.class,
         () -> atm.withdraw(CurrencyType.USD, 188),
         "It should not be possible to withdraw USD.");
   }
@@ -88,7 +87,7 @@ class AtmTest {
     }});
 
     // Act & Assert
-    assertThrows(CannotWithdrawException.class,
+    assertThrows(AtmException.class,
         () -> atm.withdraw(CurrencyType.GBP, 13),
         "It should not be possible to withdraw.");
 
@@ -130,15 +129,15 @@ class AtmTest {
     );
 
     assertAll(
-        () -> assertThrows(CannotWithdrawException.class,
+        () -> assertThrows(AtmException.class,
             () -> atm.withdraw(CurrencyType.GBP, 5), "Invalid amount of 5 GBP."),
-        () -> assertThrows(CannotWithdrawException.class,
+        () -> assertThrows(AtmException.class,
             () -> atm.withdraw(CurrencyType.GBP, 10), "Invalid amount of 10 GBP."),
-        () -> assertThrows(CannotWithdrawException.class,
+        () -> assertThrows(AtmException.class,
             () -> atm.withdraw(CurrencyType.GBP, 20), "Invalid amount of 20 GBP."),
-        () -> assertThrows(CannotWithdrawException.class,
+        () -> assertThrows(AtmException.class,
             () -> atm.withdraw(CurrencyType.GBP, 50), "Invalid amount of 50 GBP."),
-        () -> assertThrows(CannotWithdrawException.class,
+        () -> assertThrows(AtmException.class,
             () -> atm.withdraw(CurrencyType.GBP, 100), "Invalid amount of 100 GBP.")
     );
   }

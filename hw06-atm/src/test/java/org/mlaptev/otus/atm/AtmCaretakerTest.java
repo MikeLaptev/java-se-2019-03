@@ -7,7 +7,7 @@ import java.util.HashMap;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mlaptev.otus.currencies.CurrencyType;
-import org.mlaptev.otus.exceptions.CannotWithdrawException;
+import org.mlaptev.otus.exceptions.AtmException;
 
 class AtmCaretakerTest {
 
@@ -37,7 +37,7 @@ class AtmCaretakerTest {
 
     // Act & Assert
     atm.withdraw(CurrencyType.RUBLE, 6660);
-    assertThrows(CannotWithdrawException.class,
+    assertThrows(AtmException.class,
         () -> atm.withdraw(CurrencyType.RUBLE, 6660),
         "It should not be possible to withdraw Russian Rubles.");
 

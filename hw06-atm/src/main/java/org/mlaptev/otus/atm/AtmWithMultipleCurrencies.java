@@ -26,8 +26,8 @@ public class AtmWithMultipleCurrencies implements Atm {
 
   public void addSupportOfCurrencyType(CurrencyType type) throws Exception {
     logger.info("Adding support of currency {}", type.name());
-    acceptedCurrencies
-        .put(type, (CurrencyRepresentation) type.getCurrency().getConstructor().newInstance());
+    acceptedCurrencies.put(type,
+        (CurrencyRepresentation) type.getCurrency().getConstructor().newInstance());
   }
 
   public boolean isCurrencySupported(CurrencyType type) {
@@ -72,7 +72,7 @@ public class AtmWithMultipleCurrencies implements Atm {
     try {
       caretaker.save(this);
       acceptedCurrencies.get(type).uploadBanknotes(cassette);
-    } catch (InvalidBanknoteNominationException | InvalidCassetteStateException e) {
+    } catch (AtmException e) {
       caretaker.undo(this);
       throw e;
     }
