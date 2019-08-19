@@ -7,7 +7,9 @@ import lombok.Getter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.mlaptev.otus.atm.Atm;
+import org.mlaptev.otus.atm.AtmMemento;
 import org.mlaptev.otus.currencies.CurrencyType;
+import org.mlaptev.otus.exceptions.AtmException;
 
 /**
  * 1) Department can contains more than one ATM.
@@ -23,12 +25,15 @@ public class AtmDepartment {
   @Getter
   private Map<UUID, Atm> atms = new HashMap<>();
 
+  private Map<UUID, AtmMemento> initialStates = new HashMap<>();
+
   public void addAtms(Atm... atmsToAdd) {
     for (Atm atmToAdd: atmsToAdd) {
       if (atms.containsKey(atmToAdd.getUuid())) {
         logger.error("Cannot add atm [{}]. It is already presented in the system.", atmToAdd);
       } else {
         atms.put(atmToAdd.getUuid(), atmToAdd);
+        initialStates.put(atmToAdd.getUuid(), atmToAdd.save());
       }
     }
   }
@@ -37,7 +42,9 @@ public class AtmDepartment {
     return Map.of();
   }
 
-  public void resetConditionsOfAllTheAtms() {
-
+  public void resetConditionsOfAllTheAtms() throws AtmException {
+    for(Map.Entry<UUID, Atm> atm: atms.entrySet()) {
+      atm.getValue().undo(initialStates.get(atm.getKey()));
+    }
   }
 }

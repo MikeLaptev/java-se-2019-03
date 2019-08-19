@@ -11,6 +11,7 @@ import org.mlaptev.otus.currencies.CurrencyRepresentation;
 import org.mlaptev.otus.currencies.CurrencyType;
 
 @Getter
+public
 class AtmMemento {
 
   private Map<CurrencyType, Map<Integer, Integer>> state = new HashMap<>();
