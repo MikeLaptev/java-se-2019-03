@@ -15,11 +15,11 @@ import org.mlaptev.otus.currencies.CurrencyType;
 
 class SumOfRemindersTest {
 
-  private AtmDepartment department;
+  private SimpleAtmDepartment department;
 
   @BeforeEach
   void setup() {
-    department = new AtmDepartment();
+    department = new SimpleAtmDepartment();
   }
 
   @Test

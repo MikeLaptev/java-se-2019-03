@@ -14,11 +14,11 @@ import org.mlaptev.otus.exceptions.AtmException;
 
 class ResetConditionsTest {
 
-  private AtmDepartment department;
+  private SimpleAtmDepartment department;
 
   @BeforeEach
   void setup() {
-    department = new AtmDepartment();
+    department = new SimpleAtmDepartment();
   }
 
   @Test
