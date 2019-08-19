@@ -1,10 +1,5 @@
 package org.mlaptev.otus.currencies;
 
-import java.util.Map;
-import lombok.Getter;
-import org.mlaptev.otus.atm.operations.Withdraw;
-import org.mlaptev.otus.exceptions.AtmException;
-
 public class EurRepresentation extends CurrencyRepresentation {
 
   private Banknote topBanknote = new EurBanknote(500);
@@ -33,11 +28,6 @@ public class EurRepresentation extends CurrencyRepresentation {
   @Override
   public Banknote getTopBanknote() {
     return topBanknote;
-  }
-
-  @Override
-  public Map<Integer, Integer> withdraw(Withdraw type, int amount) throws AtmException {
-    return type.execute(amount);
   }
 
   private static class EurBanknote extends Banknote {

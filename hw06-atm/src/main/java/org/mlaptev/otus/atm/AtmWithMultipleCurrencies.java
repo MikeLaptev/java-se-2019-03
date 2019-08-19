@@ -6,8 +6,9 @@ import java.util.UUID;
 import lombok.Setter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.mlaptev.otus.atm.operations.MinimumAmountOfBanknotes;
-import org.mlaptev.otus.atm.operations.Withdraw;
+import org.mlaptev.otus.atm.operations.audit.Audit;
+import org.mlaptev.otus.atm.operations.withdraw.MinimumAmountOfBanknotes;
+import org.mlaptev.otus.atm.operations.withdraw.Withdraw;
 import org.mlaptev.otus.currencies.Banknote;
 import org.mlaptev.otus.currencies.CurrencyRepresentation;
 import org.mlaptev.otus.currencies.CurrencyType;
@@ -100,5 +101,14 @@ public class AtmWithMultipleCurrencies implements Atm {
       acceptedCurrencies.get(type).setCurrencyState(state.getOrDefault(type, new HashMap<>()));
     }
     withdrawApproach = memento.getWithdraw();
+  }
+
+  @Override
+  public Map<CurrencyType, Long> accept(Audit auditor) {
+    Map<CurrencyType, Map<Integer, Integer>> atmState = new HashMap<>();
+    for (var currency: acceptedCurrencies.entrySet()) {
+      atmState.put(currency.getKey(), currency.getValue().getCurrencyState());
+    }
+    return auditor.audit(atmState);
   }
 }

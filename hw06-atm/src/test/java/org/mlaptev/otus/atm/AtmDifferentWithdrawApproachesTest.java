@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mlaptev.otus.atm.operations.OnlyBanknotesWith20Nomination;
+import org.mlaptev.otus.atm.operations.withdraw.OnlyBanknotesWith20Nomination;
 import org.mlaptev.otus.currencies.CurrencyType;
 
 public class AtmDifferentWithdrawApproachesTest {

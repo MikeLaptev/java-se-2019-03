@@ -8,6 +8,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.mlaptev.otus.atm.Atm;
 import org.mlaptev.otus.atm.AtmMemento;
+import org.mlaptev.otus.atm.operations.audit.Auditable;
 import org.mlaptev.otus.currencies.CurrencyType;
 import org.mlaptev.otus.exceptions.AtmException;
 
@@ -34,13 +35,38 @@ public class SimpleAtmDepartment implements AtmDepartment {
 
   @Override
   public Map<CurrencyType, Long> getSumOfReminders() {
-    return Map.of();
+    Map<CurrencyType, Long> sumOfReminders = new HashMap<>();
+
+    for (Auditable atm : atms.values()) {
+      Map<CurrencyType, Long> reminder = atm.accept(this);
+      for (var currency: reminder.entrySet()) {
+        sumOfReminders.put(currency.getKey(),
+            sumOfReminders.getOrDefault(currency.getKey(), 0L) + currency.getValue());
+      }
+    }
+
+    return sumOfReminders;
   }
 
   @Override
   public void resetConditionsOfAllTheAtms() throws AtmException {
-    for (Map.Entry<UUID, Atm> atm : atms.entrySet()) {
+    for (var atm : atms.entrySet()) {
       atm.getValue().undo(initialStates.get(atm.getKey()));
     }
+  }
+
+  @Override
+  public Map<CurrencyType, Long> audit(Map<CurrencyType, Map<Integer, Integer>> atmState) {
+    Map<CurrencyType, Long> atmFlatState = new HashMap<>();
+
+    for (var state: atmState.entrySet()) {
+      long value = 0;
+      for (Map.Entry<Integer, Integer> currencyRepresentation: state.getValue().entrySet()) {
+        value += currencyRepresentation.getKey() * currencyRepresentation.getValue();
+      }
+      atmFlatState.put(state.getKey(), value);
+    }
+
+    return atmFlatState;
   }
 }

@@ -6,7 +6,7 @@ import java.util.Map.Entry;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import lombok.Getter;
-import org.mlaptev.otus.atm.operations.Withdraw;
+import org.mlaptev.otus.atm.operations.withdraw.Withdraw;
 import org.mlaptev.otus.currencies.CurrencyRepresentation;
 import org.mlaptev.otus.currencies.CurrencyType;
 

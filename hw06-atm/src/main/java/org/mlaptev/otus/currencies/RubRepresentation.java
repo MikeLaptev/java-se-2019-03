@@ -1,8 +1,5 @@
 package org.mlaptev.otus.currencies;
 
-import java.util.Map;
-import org.mlaptev.otus.exceptions.AtmException;
-
 public class RubRepresentation extends CurrencyRepresentation {
 
   private Banknote topBanknote = new RubBanknote(5000);

@@ -1,8 +1,5 @@
 package org.mlaptev.otus.currencies;
 
-import java.util.Map;
-import org.mlaptev.otus.exceptions.AtmException;
-
 public class GbpRepresentation extends CurrencyRepresentation {
 
   private Banknote topBanknote = new GbpBanknote(100);

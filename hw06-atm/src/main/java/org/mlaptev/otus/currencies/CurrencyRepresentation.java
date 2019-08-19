@@ -1,7 +1,7 @@
 package org.mlaptev.otus.currencies;
 
 import java.util.Map;
-import org.mlaptev.otus.atm.operations.Withdraw;
+import org.mlaptev.otus.atm.operations.withdraw.Withdraw;
 import org.mlaptev.otus.exceptions.AtmException;
 
 public abstract class CurrencyRepresentation {

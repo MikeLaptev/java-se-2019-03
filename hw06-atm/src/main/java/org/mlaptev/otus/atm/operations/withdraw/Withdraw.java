@@ -1,4 +1,4 @@
-package org.mlaptev.otus.atm.operations;
+package org.mlaptev.otus.atm.operations.withdraw;
 
 import java.util.Map;
 import org.mlaptev.otus.currencies.Banknote;
