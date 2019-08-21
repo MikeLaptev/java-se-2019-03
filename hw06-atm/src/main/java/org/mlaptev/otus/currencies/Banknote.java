@@ -2,18 +2,27 @@ package org.mlaptev.otus.currencies;
 
 import java.util.HashMap;
 import java.util.Map;
+import lombok.Getter;
+import lombok.Setter;
 import org.mlaptev.otus.exceptions.AtmException;
 import org.mlaptev.otus.exceptions.CannotWithdrawException;
 import org.mlaptev.otus.exceptions.InvalidBanknoteNominationException;
 import org.mlaptev.otus.exceptions.InvalidCassetteStateException;
 
-abstract class Banknote {
+@Getter
+public abstract class Banknote {
 
   // Reference on a banknote with lower nomination
   private Banknote lowerNominationBanknote = null;
 
-  int nomination;
+  private int nomination;
+
+  @Setter
   private int numberOfBanknotes;
+
+  public Banknote(int nomination) {
+    this.nomination = nomination;
+  }
 
   void setLowerNominationBanknote(Banknote banknote) {
     this.lowerNominationBanknote = banknote;
@@ -32,18 +41,16 @@ abstract class Banknote {
   void refillBanknoteFromCassette(Map<Integer, Integer> cassette) throws AtmException {
     if (cassette.containsKey(nomination)) {
       if (cassette.get(nomination) < 0) {
-        throw new InvalidCassetteStateException(
-            "Number of banknotes to add should be not negative");
+        throw new InvalidCassetteStateException("Number of banknotes to add should be positive");
       }
-
       numberOfBanknotes += cassette.remove(nomination);
+    }
 
-      if (lowerNominationBanknote != null) {
-        lowerNominationBanknote.refillBanknoteFromCassette(cassette);
-      } else if (!cassette.isEmpty()) {
-        throw new InvalidBanknoteNominationException(
-            "Not supported banknote nomination in cassette");
-      }
+    if (lowerNominationBanknote != null) {
+      lowerNominationBanknote.refillBanknoteFromCassette(cassette);
+    } else if (!cassette.isEmpty()) {
+      throw new InvalidBanknoteNominationException(
+          "Not supported banknote nomination in cassette");
     }
   }
 
@@ -52,17 +59,16 @@ abstract class Banknote {
       if (state.get(nomination) < 0) {
         throw new InvalidCassetteStateException("Number of banknotes to add should be positive");
       }
-
       numberOfBanknotes = state.remove(nomination);
-
-      if (lowerNominationBanknote != null) {
-        lowerNominationBanknote.refillBanknoteFromCassette(state);
-      } else if (!state.isEmpty()) {
-        throw new InvalidBanknoteNominationException(
-            "Not supported banknote nomination in cassette");
-      }
     } else {
       numberOfBanknotes = 0;
+    }
+
+    if (lowerNominationBanknote != null) {
+      lowerNominationBanknote.updateBanknoteState(state);
+    } else if (!state.isEmpty()) {
+      throw new InvalidBanknoteNominationException(
+          "Not supported banknote nomination in cassette");
     }
   }
 
@@ -75,39 +81,5 @@ abstract class Banknote {
     }
 
     return current;
-  }
-
-  Map<Integer, Integer> withdraw(int amount) throws AtmException {
-    Map<Integer, Integer> current = new HashMap<>();
-
-    if (numberOfBanknotes != 0 && amount >= nomination) {
-      int numberOfBanknotesToUse = amount / nomination;
-
-      if (numberOfBanknotesToUse > numberOfBanknotes) {
-        numberOfBanknotesToUse = numberOfBanknotes;
-      }
-
-      int reminder = amount - numberOfBanknotesToUse * nomination;
-
-      current.put(nomination, numberOfBanknotesToUse);
-      numberOfBanknotes -= numberOfBanknotesToUse;
-
-      if (reminder != 0) {
-        if (lowerNominationBanknote != null) {
-          current.putAll(lowerNominationBanknote.withdraw(reminder));
-          return current;
-        } else {
-          throw new CannotWithdrawException("Cannot withdraw required amount of money from ATM.");
-        }
-      } else {
-        return current;
-      }
-    } else {
-      if (lowerNominationBanknote != null) {
-        return lowerNominationBanknote.withdraw(amount);
-      } else {
-        throw new CannotWithdrawException("Cannot withdraw required amount of money from ATM.");
-      }
-    }
   }
 }

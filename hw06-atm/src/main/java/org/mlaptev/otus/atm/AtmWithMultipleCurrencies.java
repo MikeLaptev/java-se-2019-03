@@ -2,33 +2,46 @@ package org.mlaptev.otus.atm;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.stream.Collectors;
+import java.util.UUID;
+import lombok.Setter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.mlaptev.otus.currencies.BaseCurrency;
+import org.mlaptev.otus.atm.operations.audit.Audit;
+import org.mlaptev.otus.atm.operations.withdraw.MinimumAmountOfBanknotes;
+import org.mlaptev.otus.atm.operations.withdraw.Withdraw;
+import org.mlaptev.otus.currencies.Banknote;
+import org.mlaptev.otus.currencies.CurrencyRepresentation;
 import org.mlaptev.otus.currencies.CurrencyType;
 import org.mlaptev.otus.exceptions.AtmException;
-import org.mlaptev.otus.exceptions.CannotWithdrawException;
 import org.mlaptev.otus.exceptions.CurrencyNotSupportedException;
-import org.mlaptev.otus.exceptions.InvalidBanknoteNominationException;
-import org.mlaptev.otus.exceptions.InvalidCassetteStateException;
 
 public class AtmWithMultipleCurrencies implements Atm {
 
   private static final Logger logger = LogManager.getLogger(AtmWithMultipleCurrencies.class);
 
-  private Map<CurrencyType, BaseCurrency> acceptedCurrencies = new HashMap<>();
+  private Map<CurrencyType, CurrencyRepresentation> acceptedCurrencies = new HashMap<>();
+
+  @Setter
+  private Withdraw withdrawApproach = new MinimumAmountOfBanknotes();
+
+  private final UUID uuid = UUID.randomUUID();
+
+  @Override
+  public UUID getUuid() {
+    return uuid;
+  }
 
   public void addSupportOfCurrencyType(CurrencyType type) throws Exception {
     logger.info("Adding support of currency {}", type.name());
-    acceptedCurrencies.put(type, (BaseCurrency) type.getCurrency().getConstructor().newInstance());
+    acceptedCurrencies.put(type,
+        (CurrencyRepresentation) type.getCurrency().getConstructor().newInstance());
   }
 
-  public boolean isCurrencySupported(CurrencyType type) {
+  private boolean isCurrencySupported(CurrencyType type) {
     return acceptedCurrencies.containsKey(type);
   }
 
+  @Override
   public Map<Integer, Integer> withdraw(CurrencyType type, int amount) throws AtmException {
     if (!isCurrencySupported(type)) {
       throw new CurrencyNotSupportedException(
@@ -38,13 +51,25 @@ public class AtmWithMultipleCurrencies implements Atm {
     AtmCaretaker caretaker = new AtmCaretaker();
     try {
       caretaker.save(this);
-      return acceptedCurrencies.get(type).withdraw(amount);
-    } catch (CannotWithdrawException e) {
+      Banknote topBanknote = acceptedCurrencies.get(type).getTopBanknote();
+      return getDefinedWithdrawApproach(topBanknote).execute(amount);
+    } catch (AtmException e) {
       caretaker.undo(this);
       throw e;
     }
   }
 
+  private Withdraw getDefinedWithdrawApproach(Banknote banknote) {
+    withdrawApproach.setBanknote(banknote);
+    return withdrawApproach;
+  }
+
+  @Override
+  public void resetWithdrawTypeToDefault() {
+    withdrawApproach = new MinimumAmountOfBanknotes();
+  }
+
+  @Override
   public void loadCassette(CurrencyType type, Map<Integer, Integer> cassette) throws AtmException {
     if (!isCurrencySupported(type)) {
       throw new CurrencyNotSupportedException(
@@ -55,22 +80,35 @@ public class AtmWithMultipleCurrencies implements Atm {
     try {
       caretaker.save(this);
       acceptedCurrencies.get(type).uploadBanknotes(cassette);
-    } catch (InvalidBanknoteNominationException | InvalidCassetteStateException e) {
+    } catch (AtmException e) {
       caretaker.undo(this);
       throw e;
     }
   }
 
   @Override
-  public AtmMomento save() {
-    return new AtmMomento(acceptedCurrencies);
+  public AtmMemento save() {
+    return new AtmMemento(acceptedCurrencies, withdrawApproach, uuid);
   }
 
   @Override
-  public void undo(Object obj) throws AtmException {
-    Map<CurrencyType, Map<Integer, Integer>> state = ((AtmMomento) obj).getState();
+  public void undo(AtmMemento memento) throws AtmException {
+    if (!memento.getUuid().equals(uuid)) {
+      throw new AtmException("Cannot restore ATM from a snapshot that was not created from it.");
+    }
+    Map<CurrencyType, Map<Integer, Integer>> state = memento.getState();
     for (CurrencyType type : acceptedCurrencies.keySet()) {
       acceptedCurrencies.get(type).setCurrencyState(state.getOrDefault(type, new HashMap<>()));
     }
+    withdrawApproach = memento.getWithdraw();
+  }
+
+  @Override
+  public Map<CurrencyType, Long> accept(Audit auditor) {
+    Map<CurrencyType, Map<Integer, Integer>> atmState = new HashMap<>();
+    for (var currency: acceptedCurrencies.entrySet()) {
+      atmState.put(currency.getKey(), currency.getValue().getCurrencyState());
+    }
+    return auditor.audit(atmState);
   }
 }
