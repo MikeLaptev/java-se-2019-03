@@ -23,6 +23,7 @@
     <module>hw04-autologging</module>
     <module>hw05-gc</module>
     <module>hw06-atm</module>
+    <module>hw07-atmdepartment</module>
   </modules>
 
   <name>otus</name>

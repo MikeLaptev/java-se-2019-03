@@ -3,21 +3,26 @@ package org.mlaptev.otus.atm;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.UUID;
 import java.util.stream.Collectors;
-import org.mlaptev.otus.currencies.BaseCurrency;
+import lombok.Getter;
+import org.mlaptev.otus.atm.operations.withdraw.Withdraw;
+import org.mlaptev.otus.currencies.CurrencyRepresentation;
 import org.mlaptev.otus.currencies.CurrencyType;
 
-class AtmMomento {
+@Getter
+public
+class AtmMemento {
 
   private Map<CurrencyType, Map<Integer, Integer>> state = new HashMap<>();
+  private Withdraw withdraw;
+  private UUID uuid;
 
-  AtmMomento(Map<CurrencyType, BaseCurrency> currencies) {
+  AtmMemento(Map<CurrencyType, CurrencyRepresentation> currencies, Withdraw withdraw, UUID uuid) {
     state.putAll(currencies.entrySet()
         .stream()
         .collect(Collectors.toMap(Entry::getKey, x -> x.getValue().getCurrencyState())));
-  }
-
-  Map<CurrencyType, Map<Integer, Integer>> getState() {
-    return state;
+    this.withdraw = withdraw;
+    this.uuid = uuid;
   }
 }

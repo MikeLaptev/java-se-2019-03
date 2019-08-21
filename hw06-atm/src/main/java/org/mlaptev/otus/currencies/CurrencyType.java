@@ -1,10 +1,10 @@
 package org.mlaptev.otus.currencies;
 
 public enum CurrencyType {
-  USD(Usd.class),
-  EURO(Eur.class),
-  GBP(Gbp.class),
-  RUBLE(Rub.class);
+  USD(UsdRepresentation.class),
+  EURO(EurRepresentation.class),
+  GBP(GbpRepresentation.class),
+  RUBLE(RubRepresentation.class);
 
   private Class currency;
 
