@@ -7,6 +7,8 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.IntStream;
 import javax.management.NotificationEmitter;
 import javax.management.NotificationListener;
@@ -24,8 +26,8 @@ public class GarbageCollectorBenchmark {
   private static final int LIST_SIZE = 128_000;
   private static final int ENTRIES_TO_HOLD = 1000;
 
-  private static int gcTotalExecutionTime = 0;
-  private static int gcTotalAmountOfExecutions = 0;
+  private static AtomicLong gcTotalExecutionTime = new AtomicLong();
+  private static AtomicInteger gcTotalAmountOfExecutions = new AtomicInteger();
 
   public static List<ItemHolder> generateList() {
     List<ItemHolder> generatedList = new ArrayList<>();
@@ -49,8 +51,8 @@ public class GarbageCollectorBenchmark {
     });
     long endTime = Instant.now().toEpochMilli();
     logger.info("Execution time in milliseconds: {}", endTime - startTime);
-    logger.info("GC. Total execution time in milliseconds: {}", gcTotalExecutionTime);
-    logger.info("GC. Total amount of executions: {}", gcTotalAmountOfExecutions);
+    logger.info("GC. Total execution time in milliseconds: {}", gcTotalExecutionTime.get());
+    logger.info("GC. Total amount of executions: {}", gcTotalAmountOfExecutions.get());
   }
 
   private static void enableGcMonitoring() {
@@ -63,8 +65,8 @@ public class GarbageCollectorBenchmark {
             GarbageCollectionNotificationInfo.GARBAGE_COLLECTION_NOTIFICATION)) {
           var info = GarbageCollectionNotificationInfo.from(
               (CompositeData) notification.getUserData());
-          gcTotalExecutionTime += info.getGcInfo().getDuration();
-          gcTotalAmountOfExecutions++;
+          gcTotalExecutionTime.getAndAdd(info.getGcInfo().getDuration());
+          gcTotalAmountOfExecutions.incrementAndGet();
         }
       };
 
