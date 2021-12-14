@@ -54,7 +54,7 @@
     <com.google.guava.version>29.0-jre</com.google.guava.version>
 
     <!-- Logging -->
-    <log4j.version>2.13.3</log4j.version>
+    <log4j.version>2.16.0</log4j.version>
 
     <lombok.version>1.18.8</lombok.version>
   </properties>
